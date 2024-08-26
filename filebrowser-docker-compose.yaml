@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  filebrowser:
+    image: hurlenko/filebrowser
+    user: root
+    ports:
+      - 5656:8080
+    volumes:
+      - /home/mace:/data
+      - /home/mace/configs:/config
+    environment:
+      - localhost=/filebrowser
+    restart: unless-stopped
