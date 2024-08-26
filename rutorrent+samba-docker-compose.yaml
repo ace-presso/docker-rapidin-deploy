@@ -1,0 +1,37 @@
+version: "2.1"
+services:  
+ rutorrent:
+  image: xxacielxx/rutorrent:latest
+  container_name: rutorrent  
+  environment:
+   - PUID=1000
+   - PGID=1000
+   - TZ=Etc/UTC
+#   - XMLRPC_PORT=8001
+  volumes:  
+   - /home/mace/configs/rutorrent/data:/data
+   - /home/mace/configs/rutorrent/passwd:/passwd
+   - /home/mace/downloads:/downloads
+  ports:  
+   - 6881:6881/udp
+   - 8000:8000
+   - 8080:8080
+   - 9000:9000
+   - 50000:50000
+  restart: unless-stopped  
+  
+ samba:
+  image: dperson/samba  
+  container_name: samba
+  ports:
+   - 139:139
+   - 445:445
+  volumes:  
+   - /home/mace/downloads:/share
+   - /home/mace/MUSICA:/share2
+  environment:
+   - USER=(user);(password)
+   - GUEST_OK=true
+   - SHARE=downloads;/share;yes;yes;no;mace;mace;mace;
+   - SHARE2=musica;/share2;yes;yes;no;mace;mace;mace;
+  restart: unless-stopped
